@@ -14,7 +14,7 @@
 
 [![](https://github-readme-stats.vercel.app/api/top-langs/?username=phoneminthu&layout=compact&count_private=true&show_icons=true&theme=transparent&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
 
-- 🔭 I’m currently working on full stack developer, AI agent and neovim plugin.
+- 🔭 I’m currently working on web development(frontend, backend), AI agent and neovim plugin.
 - 🌱 I’m currently learning c/c++ and rust,
 - 👯 I’m looking to collaborate on neovim plugin
 - 📫 How to reach me: `mr.phoneminthu@gmail.com`
