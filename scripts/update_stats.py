@@ -41,7 +41,11 @@ def call_github_graphql(query):
     response = requests.post(GITHUB_API_URL_GRAPHQL, json={'query': query}, headers=HEADERS)
     check_rate_limit(response)
     response.raise_for_status()
-    return response.json()
+    result = response.json()
+    if 'errors' in result:
+        print(f"GraphQL errors: {result['errors']}")
+        raise Exception(f"GraphQL query failed: {result['errors']}")
+    return result
 
 def call_github_rest(url):
     response = requests.get(url, headers=HEADERS)
@@ -61,10 +65,10 @@ def get_contributions_and_commits():
           contributionCalendar {{
             totalContributions
           }}
-        }}
-        commitContributionsByRepository(maxRepositories: 100) {{
-          contributions {{
-            totalCount
+          commitContributionsByRepository(maxRepositories: 100) {{
+            contributions {{
+              totalCount
+            }}
           }}
         }}
         pullRequests(first: 100, states: MERGED) {{
@@ -76,7 +80,7 @@ def get_contributions_and_commits():
     result = call_github_graphql(query)
     viewer = result['data']['viewer']
     total_contributions = viewer['contributionsCollection']['contributionCalendar']['totalContributions']
-    total_commits = sum(repo['contributions']['totalCount'] for repo in viewer['commitContributionsByRepository'])
+    total_commits = sum(repo['contributions']['totalCount'] for repo in viewer['contributionsCollection']['commitContributionsByRepository'])
     merged_pr_count = viewer['pullRequests']['totalCount']
     return total_contributions, total_commits, merged_pr_count
 
